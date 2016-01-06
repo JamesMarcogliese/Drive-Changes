@@ -39,7 +39,16 @@ function Start() {
 
 function condenseFileRecord(fileRecord){
   fileRecord.sort(sortFunction);
-    
+  for (var i =0; i < fileRecord.length-1; i++){
+    var j = i+1;
+    var stringA = fileRecord[i];
+    var stringB = fileRecord[j];
+    if (stringA[0] == stringB[0]){
+      stringA[2].concat("<br>" + stringB[2]);
+      fileRecord.splice(j,1);
+      fileRecord[i] = stringA;
+    }
+  } 
   return fileRecord;
 }
 
@@ -70,7 +79,7 @@ function retrieveAllDailyChanges(){
   itemRequest = retrieveAllChanges();
   itemRequest.reverse();
   for (var i = 0; i < countProperties(itemRequest); i++){
-    if (itemRequest[i].file.modifiedDate.substring(0, 10) == getFormattedDate()){
+    if (itemRequest[i].file.modifiedDate.substring(0, 10) >= getFormattedDate()){
       if(itemRequest[i].deleted){
         changeType = "Deleted";
       } else {
@@ -109,20 +118,16 @@ function sortFunction(a, b){
 }
 
 function sendEmail(changes){
-  // Get the email address of the active user - that's you.
-  var email = Session.getActiveUser().getEmail();
-  // Get the name of the document to use as an email subject line.
-  var subject = 'Drive Changes for ' + getFormattedDate();
+  var email = Session.getActiveUser().getEmail();     
+  var subject = 'Drive Changes for ' + getFormattedDate();     
   var headings = [["File/Folder Name", "Owners", "Modified By", "Change Type", "URL"]];
   var html = "<p style='text-align:center'><strong><a style='font-size:160%;text-decoration:none;color:#49B3F5;'>File Changes Report for Google Drive</a></strong></p>";
   html += "<p>This daily report lists file and folder changes for the day.</p><br>";
   html += "<table border='1' cellpadding='5' cellspacing='0'><tr><td><b>" + headings[0].join("</b></td><td><b>") + "</b></td></tr>";
-  //Fill the table.
-  for (var i = 0; i < changes.length; i++){
+  for (var i = 0; i < changes.length; i++){  //Fill the table.
     html += "<tr><td>" + changes[i].join("</td><td>") + "</td></tr>";
   }
-  // Send yourself an email with the information.
-  MailApp.sendEmail(email, subject, "", {htmlBody: html});
+  MailApp.sendEmail(email, subject, "", {htmlBody: html});     
 }
 //Returns a formatted date
 function getFormattedDate(){
