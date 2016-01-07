@@ -26,9 +26,9 @@
          e. Click the Enable API button.
          f. Return to the Apps Script editor and click the OK button on the Advanced Google Services dialog.
       
-      2. Go to the Run menu above and choose Start
+      2. Go to the Run menu above and choose Start.
       
-      3. Daily Changes are emailed to you every day at midnight. 
+      3. That's it! Daily Changes are emailed to you every day at midnight. 
       
       
       contact  :  james.marcogliese@gmail.com
