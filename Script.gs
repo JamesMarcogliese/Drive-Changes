@@ -28,7 +28,7 @@
       
       2. Go to the Run menu above and choose Start
       
-      3. Daily Changes are emailed to you every night at midnight. 
+      3. Daily Changes are emailed to you every day at midnight. 
       
       
       contact  :  james.marcogliese@gmail.com
@@ -111,9 +111,13 @@ function script() {
     var headings = [["File/Folder Name", "Owner", "Last Modified By", "Change Type", "Link To File"]];
     var html = "<p style='text-align:center'><strong><a style='font-size:160%;text-decoration:none;color:#49B3F5;'>File Changes Report for Google Drive</a></strong></p>";
     html += "<p>This daily report lists file and folder changes for the day.</p><br>";
-    html += "<table border='1' cellpadding='5' cellspacing='0'><tr><td><b>" + headings[0].join("</b></td><td><b>") + "</b></td></tr>";
-    for (var i = 0; i < changes.length; i++){  //Fill the table.
-      html += "<tr><td>" + changes[i].join("</td><td>") + "</td></tr>";
+    if (changes.length != 0){
+      html += "<table border='1' cellpadding='5' cellspacing='0'><tr><td><b>" + headings[0].join("</b></td><td><b>") + "</b></td></tr>";
+      for (var i = 0; i < changes.length; i++){  //Fill the table.
+        html += "<tr><td>" + changes[i].join("</td><td>") + "</td></tr>";
+      }
+    } else {
+      html += "No changes for today!";
     }
     MailApp.sendEmail(email, subject, "", {htmlBody: html});     
   }
