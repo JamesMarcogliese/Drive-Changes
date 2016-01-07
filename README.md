@@ -12,5 +12,6 @@ This is a standalone Google Apps script that after being run once, sends a daily
   4. Enter "Drive API" into the search box and click on the corresponding entry in the results.
   5. Click the Enable API button.
   6. Return to the Apps Script editor and click the OK button on the Advanced Google Services dialog.
-2. Go to the Run menu above the script and choose Start. Run.
-3. That's it! Daily Changes are emailed to you every day at midnight. 
+2. Go to the Run menu above and choose Start. Run. You'll recieve an email confirming success.
+3. That's it! Daily Changes are emailed to you every day at midnight. If you ever wish to stop the emails,
+   Go to the Run menu above and choose Remove. 
