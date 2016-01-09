@@ -132,7 +132,11 @@ function script() {
     for (var i = 0; i < countProperties(itemRequest); i++){
       if (itemRequest[i].deleted){
         continue;
+        Logger.log("Deleted");
       } else if (itemRequest[i].file.modifiedDate.substring(0, 10) >= getFormattedDate()){
+        Logger.log("Modified");
+        Logger.log(itemRequest[i].file.modifiedDate.substring(0, 10));
+        Logger.log(getFormattedDate());
         if (itemRequest[i].file.labels.trashed){
           changeType = "Trashed";
         } else {
@@ -144,6 +148,7 @@ function script() {
         url = itemRequest[i].file.alternateLink;
         fileRecord.push([file, owners, modifiedBy, changeType, url]);
       } else {
+        Logger.log("Out");
         break;
       }
     }
@@ -159,20 +164,25 @@ function script() {
       return count;
   }
   // Fills HTML table with data and sends email.
-  function sendEmail(changes){
+  function sendEmail(changes, error){
     var email = Session.getActiveUser().getEmail();     
     var subject = 'Drive Changes for ' + getFormattedDate();     
     var headings = [["File/Folder Name", "Owner", "Last Modified By", "Change Type", "Link To File"]];
     var html = "<p style='text-align:center'><strong><a style='font-size:160%;text-decoration:none;color:#49B3F5;'>File Changes Report for Google Drive</a></strong></p>";
     html += "<p>This daily report lists file and folder changes for the day.</p><br>";
-    if (changes.length != 0){
-      html += "<table border='1' cellpadding='5' cellspacing='0'><tr><td><b>" + headings[0].join("</b></td><td><b>") + "</b></td></tr>";
-      for (var i = 0; i < changes.length; i++){  //Fill the table.
-        html += "<tr><td>" + changes[i].join("</td><td>") + "</td></tr>";
-      }
+    if (error){
+      html += "An error has occured during script execution. Please email james.marcogliese@gmail.com with the following information: <br>";
+      html += error;
     } else {
-      html += "No changes for today!";
-    }
+      if (changes.length != 0){
+        html += "<table border='1' cellpadding='5' cellspacing='0'><tr><td><b>" + headings[0].join("</b></td><td><b>") + "</b></td></tr>";
+        for (var i = 0; i < changes.length; i++){  //Fill the table.
+          html += "<tr><td>" + changes[i].join("</td><td>") + "</td></tr>";
+        }
+      } else {
+        html += "No changes for today!";
+      }
+    }                                                                     
     MailApp.sendEmail(email, subject, "", {htmlBody: html});     
   }
   //Returns a formatted date
@@ -184,10 +194,12 @@ function script() {
     return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]);
   }
    //Calls functions to get changes and send email
+  var error;
   try {
-   var fileRecord = retrieveAllDailyChanges();
+    var fileRecord = retrieveAllDailyChanges();
   } catch(err) {
-    Logger.log("Error retrieving changes:" + err);
+    Logger.log("Error retrieving changes:" + e);
+    error = err;
   }
-   sendEmail(fileRecord);
+   sendEmail(fileRecord,error);
 }
