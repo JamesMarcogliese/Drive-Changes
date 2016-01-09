@@ -132,11 +132,7 @@ function script() {
     for (var i = 0; i < countProperties(itemRequest); i++){
       if (itemRequest[i].deleted){
         continue;
-        Logger.log("Deleted");
       } else if (itemRequest[i].file.modifiedDate.substring(0, 10) >= getFormattedDate()){
-        Logger.log("Modified");
-        Logger.log(itemRequest[i].file.modifiedDate.substring(0, 10));
-        Logger.log(getFormattedDate());
         if (itemRequest[i].file.labels.trashed){
           changeType = "Trashed";
         } else {
@@ -148,7 +144,6 @@ function script() {
         url = itemRequest[i].file.alternateLink;
         fileRecord.push([file, owners, modifiedBy, changeType, url]);
       } else {
-        Logger.log("Out");
         break;
       }
     }
