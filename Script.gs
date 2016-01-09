@@ -128,10 +128,13 @@ function script() {
   
     itemRequest = retrieveAllChanges();
     itemRequest.reverse();
+    
     for (var i = 0; i < countProperties(itemRequest); i++){
-      if (itemRequest[i].file.modifiedDate.substring(0, 10) >= getFormattedDate()){
-        if(itemRequest[i].deleted){
-          changeType = "Deleted";
+      if (itemRequest[i].deleted){
+        continue;
+      } else if (itemRequest[i].file.modifiedDate.substring(0, 10) >= getFormattedDate()){
+        if (itemRequest[i].file.labels.trashed){
+          changeType = "Trashed";
         } else {
           changeType = "Modified";
         }
@@ -139,10 +142,9 @@ function script() {
         owners = itemRequest[i].file.ownerNames.toString();
         modifiedBy = itemRequest[i].file.lastModifyingUserName;
         url = itemRequest[i].file.alternateLink;
-      
         fileRecord.push([file, owners, modifiedBy, changeType, url]);
       } else {
-      break;
+        break;
       }
     }
   return fileRecord;
@@ -182,6 +184,10 @@ function script() {
     return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]);
   }
    //Calls functions to get changes and send email
+  try {
    var fileRecord = retrieveAllDailyChanges();
+  } catch(err) {
+    Logger.log("Error retrieving changes:" + err);
+  }
    sendEmail(fileRecord);
 }
