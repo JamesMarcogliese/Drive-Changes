@@ -193,7 +193,7 @@ function script() {
   try {
     var fileRecord = retrieveAllDailyChanges();
   } catch(err) {
-    Logger.log("Error retrieving changes:" + e);
+    Logger.log("Error retrieving changes:" + err);
     error = err;
   }
    sendEmail(fileRecord,error);
