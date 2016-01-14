@@ -1,7 +1,7 @@
 # Drive-Changes
 Google Drive Daily Changes Notifier
 
-This is a standalone Google Apps script that after being run once, sends a daily email to your inbox showing any files that have been changed in your Drive during the day. The script in run in Google's cloud enviroment so there is nothing to install.
+This is a standalone Google Apps script that after being run once, sends a daily email to your inbox showing any files that have been changed in your Drive during the day. The script in run in Google's cloud environment so there is nothing to install.
 
 ### GETTING STARTED
 1. [Click this link to grab a copy of the script.](https://script.google.com/d/160fZE1ZcBQ2eU_uDv491kpYmMBwSOMTVLb5oeUwPg3pQGTQD-LqUWiZK/edit?usp=sharing&newcopy=true) It will automatically be saved to your drive.
