@@ -69,12 +69,17 @@
 
 
 function Start() {
+  // Remove previous triggers
+  var triggers = ScriptApp.getProjectTriggers();
+  for ( var i in triggers ) {
+    ScriptApp.deleteTrigger(triggers[i]); 
+  }
   // Trigger to run script at sometime between 11PM-Midnight
-    ScriptApp.newTrigger("script")
-   .timeBased()
-   .atHour(23)
-   .everyDays(1) 
-   .create(); 
+  ScriptApp.newTrigger("script")
+  .timeBased()
+  .atHour(23)
+  .everyDays(1) 
+  .create(); 
   
   var email = Session.getActiveUser().getEmail();     
   var subject = 'Drive-Changes has been Installed!';
@@ -129,7 +134,7 @@ function script() {
     itemRequest = retrieveAllChanges();
     itemRequest.reverse();
     
-    for (var i = 0; i < countProperties(itemRequest); i++){
+    for (var i = 0; i < itemRequest.length; i++){
       if (itemRequest[i].deleted){
         continue;
       } else if (itemRequest[i].file.modifiedDate.substring(0, 10) >= getFormattedDate()){
@@ -148,15 +153,6 @@ function script() {
       }
     }
   return fileRecord;
-  }
-  // Used to count records.
-  function countProperties(obj){
-    var count = 0;
-    for(var prop in obj){
-      if(obj.hasOwnProperty(prop))
-        ++count;
-      }
-      return count;
   }
   // Fills HTML table with data and sends email.
   function sendEmail(changes, error){
