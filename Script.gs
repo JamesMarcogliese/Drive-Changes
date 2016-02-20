@@ -15,8 +15,8 @@
       
       This is a standalone Google Apps script that after being run once, 
       sends a daily email to your inbox showing any files that have been 
-      changed in your Drive during the day. The script in run in Google's 
-      cloud enviroment so there is nothing to install.
+      changed in your Drive during the day. Report lists files that have been 
+      modified, their owner, by whom, and a direct link to each. 
       
       
       - - -   - -   - - -        
@@ -31,10 +31,10 @@
          e. Click the Enable API button.
          f. Return to the Apps Script editor and click the OK button on the Advanced Google Services dialog.
       
-      2. Go to the Run menu above and choose Start. Run. You'll recieve an email confirming success.
+      2. Go to the Run menu above and choose Install. Run. You'll recieve an email confirming success.
       
       3. That's it! Daily Changes are emailed to you every day at midnight. If you ever wish to stop the emails,
-         Go to the Run menu above and choose Remove. 
+         Go to the Run menu above and choose Uninstall. 
       
       
       contact  :  james.marcogliese@gmail.com
@@ -68,7 +68,16 @@
 
 
 
-function Start() {
+
+
+
+
+
+
+
+
+
+function Install() {
   // Remove previous triggers
   var triggers = ScriptApp.getProjectTriggers();
   for ( var i in triggers ) {
@@ -86,13 +95,13 @@ function Start() {
   var html = "<p style='text-align:left'><strong><a style='font-size:160%;text-decoration:none;color:#49B3F5;'>Drive-Changes</a></strong></p>";
   html += "<p>You are getting this email because you have accessed and granted permission to Drive-Changes.</p><h3><strong>What is Drive-Changes?</strong></h3>";
   html += "<div>Drive-Changes is a standalone Google Apps script that after being run once, sends a daily email at midnight to your inbox showing any files that have been "; 
-  html += "changed in your Drive during the day. The script in run in Google&#39;s cloud enviroment so there is nothing to i<span style='font-size:12px;'>nstall.</span></div>";
+  html += "changed in your Drive during the day. Report lists files that have been modified, their owner, by whom, and a direct link to each.<span style='font-size:12px;'></span></div>";
   html += "<h3><strong>How can I uninstall Drive-Changes</strong><strong><span style='font-family: Arial;'>?</span></strong></h3><div>";
-  html += "Return to the Apps Script editor, go to the Run menu at the top and choose Remove. Run. That&#39;s it!</div><div>&nbsp;</div>";
+  html += "Return to the Apps Script editor, go to the Run menu at the top and choose Uninstall. Run. That&#39;s it!</div><div>&nbsp;</div>";
   MailApp.sendEmail(email, subject, "", {htmlBody: html});   
 }
 
-function Remove(){
+function Uninstall(){
   // Removes Trigger
   var triggers = ScriptApp.getProjectTriggers();
   for ( var i in triggers ) {
